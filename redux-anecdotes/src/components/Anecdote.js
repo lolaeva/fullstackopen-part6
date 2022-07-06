@@ -1,6 +1,6 @@
 const Anecdote = ({ anecdote, handleVote }) => {
   return (
-    <div>
+    <div className="anecdote-item">
       <div>{anecdote.content}</div>
       <div>
         has {anecdote.votes}
