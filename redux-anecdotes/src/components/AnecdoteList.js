@@ -1,21 +1,18 @@
 import { useSelector, useDispatch } from "react-redux";
 import { voteAnecdote } from "../reducers/anecdoteReducer";
-import { addNotification, removeNotification } from "../reducers/notificationReducer";
+import { setNotification } from "../reducers/notificationReducer";
 import Anecdote from "./Anecdote";
 
 const AnecdoteList = () => {
   const dispatch = useDispatch();
-  // const anecdotes = useSelector((state) => state.anecdotes);
-  const vote = (id) => {
-    dispatch(voteAnecdote(id));
-    dispatch(addNotification(`you voted for ${anecdotes.find((a) => a.id === id).content}`));
-    setTimeout(() => {
-      dispatch(removeNotification());
-    }, 3000);
+  const vote = (anecdote) => {
+    dispatch(voteAnecdote(anecdote));
+    dispatch(
+      setNotification(`you voted for ${anecdote.content}`, 5)
+    );
   };
 
   const anecdotes = useSelector(({ filter, anecdotes }) => {
-    console.log("selector filter", filter);
     if (filter === "") {
       return anecdotes;
     }
@@ -25,7 +22,7 @@ const AnecdoteList = () => {
   return (
     <>
       {anecdotes.map((anecdote) => (
-        <Anecdote key={anecdote.id} anecdote={anecdote} handleVote={() => vote(anecdote.id)} />
+        <Anecdote key={anecdote.id} anecdote={anecdote} handleVote={() => vote(anecdote)} />
       ))}
     </>
   );
